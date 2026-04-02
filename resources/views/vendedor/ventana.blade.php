@@ -1,0 +1,1 @@
+<h1>VISTA DEL CAJERO</h1>
