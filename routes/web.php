@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\Gerente\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -12,6 +14,7 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // ya iniciaron sesión
 Route::middleware(['auth'])->group(function () {
@@ -28,10 +31,22 @@ Route::middleware(['auth'])->group(function () {
 
     // Ruta para el Gerente
     //CRUD de productos
-    Route::get('/gerente/inventario/inventario', [InventarioController::class, 'index'])->name('gerente.inventario.index');
-    Route::get('/gerente/inventario/create', [InventarioController::class, 'create'])->name('crear');
-    Route::post('/gerente/inventario/inventario', [InventarioController::class, 'store'])->name('inventario.store');
-    Route::get('/gerente/inventario/{producto}/edit', [InventarioController::class, 'edit'])->name('gerente.inventario.edit');
-    Route::put('/gerente/inventario/inventario/{producto}', [InventarioController::class, 'update'])->name('gerente.inventario.update');
-    Route::delete('/gerente/inventario/inventario/{producto}', [InventarioController::class, 'destroy'])->name('gerente.inventario.destroy');
+    Route::prefix('gerente')->name('gerente.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/inventario', [InventarioController::class, 'index'])->name('inventario.index');
+    Route::get('/create', [InventarioController::class, 'create'])->name('inventario.create');
+    Route::post('/', [InventarioController::class, 'store'])->name('inventario.store');
+    Route::get('/{producto}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
+    Route::put('/{producto}', [InventarioController::class, 'update'])->name('inventario.update');
+    Route::delete('/{producto}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
+
+});
+     //CRUD de categorias
+    Route::prefix('gerente/categorias')->name('gerente.categorias.')->group(function () {
+    Route::get('/', [CategoriaController::class, 'index'])->name('index');
+    Route::post('/', [CategoriaController::class, 'store'])->name('store');
+    Route::delete('/{id}', [CategoriaController::class, 'destroy'])->name('destroy');
+    //me falta el de actualizar
+});
+
 });

@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
         $table->id();
+        $table->string('codigo')->unique();
         $table->string('nombre');
-        $table->integer('stock');
         $table->decimal('precio', 8, 2);
+         $table->integer('existencias')->default(0);
+        $table->integer('stock_minimo')->default(5);
+        $table->foreignId('categoria_id')
+             ->constrained('categorias')
+             ->onDelete('cascade');
         $table->timestamps();
         });
     }

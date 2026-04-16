@@ -27,7 +27,7 @@ class AuthController extends Controller
 
             return match($usuarioLog->roles->nombre_rol){
                 'Administrador' => redirect()->intended('/admin/dashboard'),
-                'Gerente'       => redirect()->intended('/gerente/inventario/inventario'),
+                'Gerente'       => redirect()->route('gerente.dashboard'),
                 'Vendedor'      => redirect()->intended('/vendedor/ventana'),
                 default         => redirect('/'),
             };
