@@ -2,6 +2,7 @@
 @section('title', 'Inventario de Productos')
 <br><br>
 @section('content')
+<br><br><br>
     <h1>Inventario de Productos</h1><br>
     <a href="{{ route('crear') }}" >
         Nuevo Producto
