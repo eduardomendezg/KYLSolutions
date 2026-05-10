@@ -1,4 +1,4 @@
-@extends('layouts.templates.sellertem') {{-- Asegúrate de usar tu plantilla base --}}
+@extends('layouts.templates.sidebar') 
 
 @section('content')
 <div class="max-w-7xl mx-auto p-4 md:p-6">
@@ -10,15 +10,7 @@
             <p class="text-gray-500 font-medium">Bienvenido al sistema de gestión de KYL Solutions</p>
         </div>
         
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="inline-flex items-center gap-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 font-bold py-2 px-4 rounded-xl transition shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Cerrar Sesión
-            </button>
-        </form>
+
     </div>
 
     {{-- Tarjetas de Estadísticas --}}

@@ -1,4 +1,4 @@
-@extends('layouts.templates.sellertem')
+@extends('layouts.templates.sidebar')
 
 @section('title', 'Inventario de Productos')
 

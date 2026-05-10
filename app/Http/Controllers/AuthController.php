@@ -12,31 +12,51 @@ class AuthController extends Controller
         return view('auth.login'); //vista
     }
 
-    public function login(Request $request){
-        //validaciones
-        $credentials = $request->validate([
-            'codigo' => ['required', 'numeric', 'digits:6'],
-            'password'=> ['required'],
-        ]);
+public function login(Request $request)
+{
+    //  Validaciones básicas
+    $credentials = $request->validate([
+        'codigo' => ['required', 'numeric', 'digits:6'],
+        'password' => ['required'],
+    ]);
 
-        //inicio de sesion
+    // Intenta el inicio de sesión
+    if (Auth::attempt($credentials)) {
+        $usuarioLog = Auth::user();
+        
+        // Obtiene el rol seleccionado 
+        $rolSeleccionado = $request->query('rol');
 
-        if (Auth::attempt($credentials)){
-            $request->session()->regenerate();
-            $usuarioLog =Auth::user();
+        //  Valida si el rol coincide
+        // Compara el rol del usuario en la BD con el seleccionado en la interfaz
+        if ($rolSeleccionado && $usuarioLog->roles->nombre_rol !== $rolSeleccionado) {
+            
+            // Si no coincide, cerramos la sesión inmediatamente y mandamos error
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-            return match($usuarioLog->roles->nombre_rol){
-                'Administrador' => redirect()->intended('/admin/dashboard'),
-                'Gerente'       => redirect()->route('gerente.dashboard'),
-                'Vendedor'      => redirect()->intended('/vendedor/ventana'),
-                default         => redirect('/'),
-            };
+            return back()->withErrors([
+                'codigo' => "Acceso denegado. Usted no tiene privilegios de $rolSeleccionado.",
+            ])->withInput();
         }
-        return back()->withErrors([
-                    'codigo' => 'Las credenciales no coinciden con nuestros registros.',
-                ])->onlyInput('codigo');
 
+        //  Si todo va bien, regenerar sesión y redireccionar
+        $request->session()->regenerate();
+
+        return match($usuarioLog->roles->nombre_rol) {
+            'Administrador' => redirect()->intended('/admin/dashboard'),
+            'Gerente'       => redirect()->route('gerente.dashboard'),
+            'Vendedor'      => redirect()->intended('punto-venta'),
+            default         => redirect('/'),
+        };
     }
+
+    // Error de credenciales incorrectas
+    return back()->withErrors([
+        'codigo' => 'Las credenciales no coinciden con nuestros registros.',
+    ])->onlyInput('codigo');
+}
 
     public function logout(Request $request){
         Auth::logout();

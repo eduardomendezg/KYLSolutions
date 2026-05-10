@@ -1,9 +1,9 @@
-@extends('layouts.templates.sellertem')
+@extends('layouts.templates.sidebar')
 
 @section('content')
 
 <div class="auth-wrapper mb-4">
-    <a href="{{ route('gerente.dashboard') }}" class="btn-volver flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
+    <a href="{{ route('gerente.inventario.index') }}" class="btn-volver flex items-center gap-2 text-gray-600 hover:text-blue-600 transition">
         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>

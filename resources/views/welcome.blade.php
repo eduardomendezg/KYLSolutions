@@ -12,7 +12,7 @@
             </svg>
         </div>
             <h3>Administrador</h3>
-            <a href="{{ route('login') }}" class="btn">Acceder como Admin</a>
+            <a href="{{ route('login', ['rol' => 'Administrador']) }}" class="btn">Acceder como Admin</a>
         </div>
 
         <div class="card">
@@ -23,7 +23,7 @@
             </svg>
             </div>
             <h3>Vendedor</h3>
-            <a href="{{ route('login') }}" class="btn">Acceder como Vendedor</a>
+            <a href="{{ route('login', ['rol' => 'Vendedor']) }}" class="btn">Acceder como Vendedor</a>
         </div>
         <div class="card">
             <div class="icon">
@@ -32,7 +32,7 @@
             </svg>
             </div>
             <h3>Gerente</h3>
-            <a href="{{ route('login') }}" class="btn">Acceder como Gerente</a>
+            <a href="{{ route('login', ['rol' => 'Gerente']) }}" class="btn">Acceder como Gerente</a>
         </div>
     </div>
 </div>

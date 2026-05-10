@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\InventarioController;
-use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\Gerente\InventarioController;
+use App\Http\Controllers\Gerente\CategoriaController;
 use App\Http\Controllers\Gerente\DashboardController;
+use App\Http\Controllers\ClientesController;
+use App\Livewire\PuntoVenta;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,9 +29,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.dashboard');
 
     // Ruta para el Vendedor
-    Route::get('/vendedor/ventana', function () {
-        return view('vendedor.ventana');
-    })->name('vendedor.ventana');
+    Route::get('/punto-venta', PuntoVenta::class)->name('punto-venta');
 
     // Ruta para el Gerente
     //CRUD de productos
@@ -50,3 +52,18 @@ Route::middleware(['auth'])->group(function () {
 });
 
 });
+ //CRUD de clientes
+    Route::prefix('gerente/clientes')->name('gerente.')->group(function () {
+    Route::get('/', [ClientesController::class, 'index'])->name('clientes.index');
+    Route::get('/clientes/create', [ClientesController::class, 'create'])->name('clientes.create');
+    Route::post('/clientes', [ClientesController::class, 'store'])->name('clientes.store');
+    Route::get('/clientes/{cliente}/edit', [ClientesController::class, 'edit'])->name('clientes.edit');
+    Route::put('/clientes/{cliente}', [ClientesController::class, 'update'])->name('clientes.update');
+    Route::delete('/clientes/{cliente}', [ClientesController::class, 'destroy'])->name('clientes.destroy');    
+
+    
+   
+});
+
+
+   
